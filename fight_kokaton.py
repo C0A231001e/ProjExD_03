@@ -150,6 +150,7 @@ def main():
     beams = []
     # bomb = Bomb((255, 0, 0), 10)
     bombs = [Bomb((255, 0, 0), 10) for i in range(NUM_OF_BOMBS)]
+    explosions = []
     score = Score(screen)
     clock = pg.time.Clock()
     tmr = 0
@@ -179,6 +180,7 @@ def main():
         for j, beam in enumerate(beams):
             for i, bomb in enumerate(bombs):
                 if  (bomb is not None) and (beam is not None) and bomb.rct.colliderect(beam.rct):
+                    explosions.append(Explosion(bomb))
                     beams[j] = None
                     bombs[i] = None
 
@@ -198,6 +200,8 @@ def main():
             beam.update(screen)
         for bomb in bombs:
             bomb.update(screen)
+        for explosion in explosions:
+            explosion.update(screen)
         pg.display.update()
         tmr += 1
         clock.tick(50)
@@ -212,6 +216,25 @@ class Score:
         self.txt = self.fonto.render(f"スコア:{self.score}", 0, (0, 0, 255))
         screen.blit(self.txt, [WIDTH-150, HEIGHT-75])
 
+
+class Explosion:
+    def __init__(self, bomb: pg.rect) -> None:
+        self.k = 0
+        self.img = pg.image.load("fig/explosion.gif")
+        self.exp = [self.img, pg.transform.flip(self.img, True, False)]
+        self.rct = self.exp[self.k].get_rect()
+        self.rct.center = bomb.rct.center
+        self.life = 75
+
+    def update(self, screen):
+        self.life -= 1
+        if self.life > 0:
+            if self.k == 0:
+                self.k = 1
+            else:
+                self.k = 0
+
+            screen.blit(self.exp[self.k], self.rct)
 
 if __name__ == "__main__":
     pg.init()
