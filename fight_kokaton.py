@@ -208,33 +208,47 @@ def main():
 
 
 class Score:
-    def __init__(self, screen) -> None:
+    """
+    スコアを表示するクラス
+    """
+    def __init__(self) -> None:
+        """
+        フォントの設定(hgp創英角ﾎﾟｯﾌﾟ体)
+        スコア値の初期化(score = 0)
+        """
         self.fonto = pg.font.SysFont("hgp創英角ﾎﾟｯﾌﾟ体", 30)
         self.score = 0
 
-    def update(self, screen):
+    def update(self, screen: pg.surface) -> None:
+        """
+        テキストサーフェイスの生成
+        スコアの表示
+        """
         self.txt = self.fonto.render(f"スコア:{self.score}", 0, (0, 0, 255))
         screen.blit(self.txt, [WIDTH-150, HEIGHT-75])
 
 
 class Explosion:
+    """
+    爆発のエフェクトを表示するクラス
+    """
     def __init__(self, bomb: pg.rect) -> None:
         self.k = 0
-        self.img = pg.image.load("fig/explosion.gif")
-        self.exp = [self.img, pg.transform.flip(self.img, True, False)]
-        self.rct = self.exp[self.k].get_rect()
-        self.rct.center = bomb.rct.center
-        self.life = 75
+        self.img = pg.image.load("fig/explosion.gif")  #画像の読み込み(fig/explosion.gif)
+        self.exp = [self.img, pg.transform.flip(self.img, True, False)]  #イメージサーフェイスの生成（リスト）
+        self.rct = self.exp[self.k].get_rect()  #イメージRectの生成
+        self.rct.center = bomb.rct.center  #
+        self.life = 75  #エフェクトのライフ時間設定
 
-    def update(self, screen):
-        self.life -= 1
-        if self.life > 0:
+    def update(self, screen: pg.surface) -> None:
+        self.life -= 1  #ライフタイムを1減らす
+        if self.life > 0:  #ライフ時間が正の時
             if self.k == 0:
-                self.k = 1
+                self.k = 1  #イメージサーフェイスがリストの0番なら1番に変更
             else:
-                self.k = 0
+                self.k = 0  #イメージサーフェイスがリストの1番なら0番に変更
 
-            screen.blit(self.exp[self.k], self.rct)
+            screen.blit(self.exp[self.k], self.rct)  #エフェクトの表示
 
 if __name__ == "__main__":
     pg.init()
