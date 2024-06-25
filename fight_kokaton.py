@@ -178,14 +178,14 @@ def main():
 
         for j, beam in enumerate(beams):
             for i, bomb in enumerate(bombs):
-                if (len(beams) is not 0) and bomb.rct.colliderect(beam.rct):
+                if  (bomb is not None) and (beam is not None) and bomb.rct.colliderect(beam.rct):
                     beams[j] = None
                     bombs[i] = None
 
                     score.score += 1
                     bird.change_img(6, screen)
 
-            if check_bound(beam.rct) != (True, True):
+            if (beam is not None) and check_bound(beam.rct) != (True, True):
                 beams[j] = None
 
         bombs = [bomb for bomb in bombs if bomb is not None] #更新した爆弾リスト
