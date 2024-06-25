@@ -170,6 +170,8 @@ def main():
             beam = None
             bomb = None
 
+            bird.change_img(6, screen)
+
         key_lst = pg.key.get_pressed()
         bird.update(key_lst, screen)
         if beam is not None:
