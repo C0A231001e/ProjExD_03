@@ -149,6 +149,7 @@ def main():
     beam = None
     # bomb = Bomb((255, 0, 0), 10)
     bombs = [Bomb((255, 0, 0), 10) for i in range(NUM_OF_BOMBS)]
+    score = Score(screen)
     clock = pg.time.Clock()
     tmr = 0
     while True:
@@ -174,18 +175,19 @@ def main():
                 time.sleep(5)
                 return
 
-
         for i, bomb in enumerate(bombs):
             if (beam is not None) and (bomb is not None) and bomb.rct.colliderect(beam.rct):
                 beam = None
                 bombs[i] = None
 
+                score.score += 1
                 bird.change_img(6, screen)
 
         bombs = [bomb for bomb in bombs if bomb is not None] #更新した爆弾リスト
 
         key_lst = pg.key.get_pressed()
         bird.update(key_lst, screen)
+        score.update(screen)
         if beam is not None:
             beam.update(screen)
         for bomb in bombs:
@@ -193,6 +195,18 @@ def main():
         pg.display.update()
         tmr += 1
         clock.tick(50)
+
+
+class Score:
+    def __init__(self, screen) -> None:
+        self.fonto = pg.font.SysFont("hgp創英角ﾎﾟｯﾌﾟ体", 30)
+        self.score = 0
+        self.txt = self.fonto.render(f"スコア:{self.score}", 0, (0, 0, 255))
+        screen.blit(self.txt, [WIDTH-150, HEIGHT-75])
+
+    def update(self, screen):
+        self.txt = self.fonto.render(f"スコア:{self.score}", 0, (0, 0, 255))
+        screen.blit(self.txt, [WIDTH-150, HEIGHT-75])
 
 
 if __name__ == "__main__":
