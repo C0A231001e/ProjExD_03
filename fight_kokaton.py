@@ -201,8 +201,6 @@ class Score:
     def __init__(self, screen) -> None:
         self.fonto = pg.font.SysFont("hgp創英角ﾎﾟｯﾌﾟ体", 30)
         self.score = 0
-        self.txt = self.fonto.render(f"スコア:{self.score}", 0, (0, 0, 255))
-        screen.blit(self.txt, [WIDTH-150, HEIGHT-75])
 
     def update(self, screen):
         self.txt = self.fonto.render(f"スコア:{self.score}", 0, (0, 0, 255))
