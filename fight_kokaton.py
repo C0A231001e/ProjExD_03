@@ -95,7 +95,7 @@ class Beam:
         """
         self.img = pg.image.load(f"fig/beam.png")
         self.rct = self.img.get_rect()
-        self.rct.center = bird.rct.center #ビームの右座標 = こうかとんの中心縦座標
+        self.rct.centery = bird.rct.centery #ビームの右座標 = こうかとんの中心縦座標
         self.rct.left = bird.rct.right #ビームの左座標 = こうかとんの右座標
         self.vx, self.vy = +5, 0
 
